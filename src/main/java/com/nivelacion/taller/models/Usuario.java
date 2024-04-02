@@ -1,36 +1,40 @@
 package com.nivelacion.taller.models;
 
-import java.util.Collection;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.nivelacion.taller.enums.Role;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-// Marca la clase como una entidad JPA, que significa que representa una tabla en la bd
 @Entity
-
-// Anotacion de lombok que genera automaticamente metodos como getters y setters
 @Data
-
-// Anotaciones lombok que generan automaticamente un constructor sin argumentos, y un constructor que incluye todos los campos de la clase como argumentos.
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "usuario")
 public class Usuario {
 
-    
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column(name = "id")
     private Long id;
 
@@ -48,12 +52,9 @@ public class Usuario {
 
     @Transient
     private Collection<Role> roles = new ArrayList<>();
-    
-    public Collection<Role> getRoles() {
-        return this.roles;
-    }
 
-    public void setRoles(Collection<Role> roles) {
-        this.roles = roles;
-    }
+    @OneToMany(mappedBy = "usuario", cascade = CascadeType.PERSIST)
+    @JsonManagedReference
+    private List<Competencia> competencias = new ArrayList<>();
+
 }

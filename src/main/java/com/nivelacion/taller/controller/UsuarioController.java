@@ -11,6 +11,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nivelacion.taller.dtos.UsuarioDTO;
 import com.nivelacion.taller.enums.Role;
 import com.nivelacion.taller.exceptions.ModelNotFoundException;
+import com.nivelacion.taller.mappers.UsuarioMapper;
 import com.nivelacion.taller.models.Usuario;
 import com.nivelacion.taller.repository.UsuarioRepository;
 import com.nivelacion.taller.services.UsuarioService;
@@ -21,6 +22,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -45,29 +47,48 @@ import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping(path = "/api/v1")
-public class UsuarioController{
+@CrossOrigin
+public class UsuarioController {
+
     private final UsuarioService usuarioService;
     private final UsuarioRepository usuarioRepository;
-    
+    private final UsuarioMapper usuarioMapper;
+
+    // @GetMapping("/usuarios")
+    // public ResponseEntity<List<Usuario>> getUsuarios() {
+    // return ResponseEntity.ok().body(usuarioService.getUsuarios());
+    // }
+
     @GetMapping("/usuarios")
-    public ResponseEntity<List<Usuario>> getUsuarios() {
-        return ResponseEntity.ok().body(usuarioService.getUsuarios());
+    public ResponseEntity<List<UsuarioDTO>> getUsuarios() {
+        List<Usuario> usuarios = usuarioService.getUsuarios();
+        List<UsuarioDTO> usuariosDTO = usuarios.stream()
+                .map(usuario -> {
+                    UsuarioDTO dto = usuarioMapper.originalToDTO(usuario); // Utilizamos el mapper para mapear el
+                                                                           // Usuario a UsuarioDTO
+                    dto.setCompetencias(usuario.getCompetencias()); // Asignamos las competencias
+                    return dto;
+                })
+                .collect(Collectors.toList());
+
+        return ResponseEntity.ok().body(usuariosDTO);
     }
 
-    @PostMapping(value = "/usuario/save")
+    // @PostMapping(value = "/usuario/save")
+    @PostMapping(value = "/usuario/save", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> registerUser(@RequestBody UsuarioDTO usuarioDTO)
-        throws Exception {
-            UsuarioDTO dto = usuarioService.registerUserLoginDTO(usuarioDTO);
-            UsuarioDTO dtoResponse = new UsuarioDTO();
-            dtoResponse.setNombre(dto.getNombre());
-            dtoResponse.setApellido(dto.getApellido());
-            dtoResponse.setMail(dto.getMail());
-            dtoResponse.setContrasenia(dto.getContrasenia());
-            dtoResponse.setRoles(dto.getRoles());
-            return new ResponseEntity<UsuarioDTO>(dtoResponse, HttpStatus.OK);
-        }
+            throws Exception {
+        UsuarioDTO dto = usuarioService.registerUserLoginDTO(usuarioDTO);// trae nombre, apellido, mail y contrasenia
+        UsuarioDTO dtoResponse = new UsuarioDTO();
+        dtoResponse.setNombre(dto.getNombre());
+        dtoResponse.setApellido(dto.getApellido());
+        dtoResponse.setMail(dto.getMail());
+        dtoResponse.setContrasenia(dto.getContrasenia());
+        dtoResponse.setRoles(dto.getRoles());
+        return new ResponseEntity<UsuarioDTO>(dtoResponse, HttpStatus.OK);
+    }
 
-        @PostMapping("/role/save")
+    @PostMapping("/role/save")
     public ResponseEntity<Role> saveRole(@RequestBody Role role) {
         URI uri = URI
                 .create(ServletUriComponentsBuilder.fromCurrentContextPath().path("api/v1/role/save").toUriString());

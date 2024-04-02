@@ -42,7 +42,7 @@ public class UsuarioServicesImpl implements UsuarioService, UserDetailsService {
     public UserDetails loadUserByUsername(String mail) throws UsernameNotFoundException {
         Usuario usuario = usuarioRepository.findByMail(mail);
         if (usuario == null) {
-            log.error("Usuario no encontrado en la BD");
+            log.error("Usuario no encontrado en la BD: {}", mail);
             throw new UsernameNotFoundException("usuario no encontrado en la bd");
         } else {
             log.info("El usuario encontrado en la BD es: {}", mail);
@@ -95,9 +95,13 @@ public class UsuarioServicesImpl implements UsuarioService, UserDetailsService {
                 roles.add(Role.ROLE_ADMIN);
             }
             newUser.setRoles(roles);
+
+            // Guardar el nuevo usuario en la base de datos
             this.usuarioRepository.save(newUser);
 
-            return usuarioDTO;
+            // return usuarioDTO;
+            // Devolver el DTO del nuevo usuario creado
+            return usuarioMapper.originalToDTO(newUser);
         } else {
             throw new Exception("Mail existente, elija otro por favor.");
         }

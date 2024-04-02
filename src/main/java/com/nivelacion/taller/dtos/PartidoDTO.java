@@ -2,41 +2,33 @@ package com.nivelacion.taller.dtos;
 
 import java.time.LocalDateTime;
 
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
-
 public class PartidoDTO {
 
     private Long id;
+    private Integer goles_local;
+    private Integer goles_visitante;
+    private LocalDateTime fecha_realizacion;
+    private LocalDateTime fecha_baja;
+    private CompetenciaDTO competencia;
+    private ParticipanteDTO local;
+    private ParticipanteDTO visitante;
 
-    @NotNull(message = "Ingrese el ID del equipo local")
-    @Size(min = 1)
-    private Long idLocal;
+    public PartidoDTO() {
+    }
 
-    @NotNull(message = "Ingrese el ID del equipo visitante")
-    @Size(min = 1)
-    private Long idVisitante;
+    public PartidoDTO(Long id, Integer goles_local, Integer goles_visitante, LocalDateTime fecha_realizacion,
+            LocalDateTime fecha_baja, CompetenciaDTO competencia, ParticipanteDTO local, ParticipanteDTO visitante) {
+        this.id = id;
+        this.goles_local = goles_local;
+        this.goles_visitante = goles_visitante;
+        this.fecha_realizacion = fecha_realizacion;
+        this.fecha_baja = fecha_baja;
+        this.competencia = competencia;
+        this.local = local;
+        this.visitante = visitante;
+    }
 
-    @NotNull(message = "Ingrese el ID de la competencia")
-    @Size(min = 1)
-    private Long idCompetencia;
-
-    @NotNull(message = "Ingrese los goles del equipo local")
-    @Size(min = 1)
-    private Integer golesLocal;
-
-    @NotNull(message = "Ingrese los goles del equipo visitante")
-    @Size(min = 1)
-    private Integer golesVisitante;
-
-    @NotNull(message = "Ingrese la fecha de realización del partido")
-    private LocalDateTime fechaRealizacion;
-
-    @NotNull(message = "Ingrese una fecha de baja")
-    private LocalDateTime fechaBaja;
-
-    // Getters y setters generados automáticamente
-
+    // Getters y setters
     public Long getId() {
         return id;
     }
@@ -45,59 +37,59 @@ public class PartidoDTO {
         this.id = id;
     }
 
-    public Long getIdLocal() {
-        return idLocal;
+    public Integer getGoles_local() {
+        return goles_local;
     }
 
-    public void setIdLocal(Long idLocal) {
-        this.idLocal = idLocal;
+    public void setGoles_local(Integer goles_local) {
+        this.goles_local = goles_local;
     }
 
-    public Long getIdVisitante() {
-        return idVisitante;
+    public Integer getGoles_visitante() {
+        return goles_visitante;
     }
 
-    public void setIdVisitante(Long idVisitante) {
-        this.idVisitante = idVisitante;
+    public void setGoles_visitante(Integer goles_visitante) {
+        this.goles_visitante = goles_visitante;
     }
 
-    public Long getIdCompetencia() {
-        return idCompetencia;
+    public LocalDateTime getFecha_realizacion() {
+        return fecha_realizacion;
     }
 
-    public void setIdCompetencia(Long idCompetencia) {
-        this.idCompetencia = idCompetencia;
+    public void setFecha_realizacion(LocalDateTime fecha_realizacion) {
+        this.fecha_realizacion = fecha_realizacion;
     }
 
-    public Integer getGolesLocal() {
-        return golesLocal;
+    public LocalDateTime getFecha_baja() {
+        return fecha_baja;
     }
 
-    public void setGolesLocal(Integer golesLocal) {
-        this.golesLocal = golesLocal;
+    public void setFecha_baja(LocalDateTime fecha_baja) {
+        this.fecha_baja = fecha_baja;
     }
 
-    public Integer getGolesVisitante() {
-        return golesVisitante;
+    public CompetenciaDTO getCompetencia() {
+        return competencia;
     }
 
-    public void setGolesVisitante(Integer golesVisitante) {
-        this.golesVisitante = golesVisitante;
+    public void setCompetencia(CompetenciaDTO competencia) {
+        this.competencia = competencia;
     }
 
-    public LocalDateTime getFechaRealizacion() {
-        return fechaRealizacion;
+    public ParticipanteDTO getLocal() {
+        return local;
     }
 
-    public void setFechaRealizacion(LocalDateTime fechaRealizacion) {
-        this.fechaRealizacion = fechaRealizacion;
+    public void setLocal(ParticipanteDTO local) {
+        this.local = local;
     }
 
-    public LocalDateTime getFechaBaja() {
-        return fechaBaja;
+    public ParticipanteDTO getVisitante() {
+        return visitante;
     }
 
-    public void setFechaBaja(LocalDateTime fechaBaja) {
-        this.fechaBaja = fechaBaja;
+    public void setVisitante(ParticipanteDTO visitante) {
+        this.visitante = visitante;
     }
 }
