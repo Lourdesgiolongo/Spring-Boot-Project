@@ -50,13 +50,13 @@ public class UsuarioServicesImpl implements UsuarioService, UserDetailsService {
 
         Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
 
-        // AGREGAR ROL ADMIN
-        // if (usuario.getRoles() == null || usuario.getRoles().isEmpty()) {
-        // // Si el usuario no tiene roles asignados, asignamos automáticamente el rol
+        //AGREGAR ROL ADMIN
+        if (usuario.getRoles() == null || usuario.getRoles().isEmpty()) {
+        //Si el usuario no tiene roles asignados, asignamos automáticamente el rol
         // // ADMIN
-        // usuario.setRoles(Collections.singleton(Role.ROLE_ADMIN));
-        // usuarioRepository.save(usuario);
-        // }
+        usuario.setRoles(Collections.singleton(Role.ROLE_ADMIN));
+        usuarioRepository.save(usuario);
+        }
 
         usuario.getRoles().forEach(role -> {
             authorities.add(new SimpleGrantedAuthority(role.getName()));

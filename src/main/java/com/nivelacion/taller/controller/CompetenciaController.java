@@ -24,6 +24,36 @@ import com.nivelacion.taller.services.impl.PartidoServiceImpl;
 
 import lombok.RequiredArgsConstructor;
 
+// @RestController
+// @RequiredArgsConstructor
+// @RequestMapping(path = "/api/v1")
+// @CrossOrigin
+// public class CompetenciaController {
+
+//     @Autowired
+//     private CompetenciaServiceImpl competenciaServiceImpl;
+
+//     @GetMapping("/competencias")
+//     public List<CompetenciaDTO> getCompetencias() throws EmptyListException {
+//         competenciaServiceImpl.generarFixture();
+//         return competenciaServiceImpl.getCompetencias();
+//     }
+
+//     @PostMapping("/competencia/save")
+//     public ResponseEntity<Object> save(@Valid @RequestBody CompetenciaDTO dto) {
+//         CompetenciaDTO dtoReturned = null;
+//         try {
+//             dtoReturned = this.competenciaServiceImpl.save(dto);
+//             dtoReturned.setFecha_creacion(LocalDateTime.now());
+//         } catch (ModelNotFoundException e) {
+//             System.out.println(e.getMessage());
+//             return ResponseEntity.badRequest().body(e.getMessage());
+//         }
+//         return ResponseEntity.status(HttpStatus.CREATED).body(dtoReturned);
+//     }
+
+// }
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping(path = "/api/v1")
@@ -39,7 +69,7 @@ public class CompetenciaController {
         return competenciaServiceImpl.getCompetencias();
     }
 
-    @PostMapping("/competencia/save")
+    @PostMapping("/competencias/save") // Aquí se ajusta la URL para que coincida con la del frontend
     public ResponseEntity<Object> save(@Valid @RequestBody CompetenciaDTO dto) {
         CompetenciaDTO dtoReturned = null;
         try {
