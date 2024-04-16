@@ -33,7 +33,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         auth.userDetailsService(userDetailsService).passwordEncoder(bCryptPasswordEncoder);
     }
 
-
+   
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         CustomAthenticationFilter customAthenticationFilter = new CustomAthenticationFilter(authenticationManager());
@@ -46,7 +46,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/api/v1/login/**", "/api/v1/token/refresh/**").permitAll()
                 .antMatchers(HttpMethod.GET, "/api/v1/usuario/**").hasAnyAuthority("ROLE_ADMIN")
                 .antMatchers(HttpMethod.POST, "/api/v1/usuario/save").permitAll() // Permitir acceso sin autenticación
-                .antMatchers(HttpMethod.POST, "/api/v1/competencias/save").permitAll() // Permitir acceso sin autenticación al endpoint de competencias
                 .anyRequest().authenticated()
                 .and()
                 .addFilter(customAthenticationFilter)

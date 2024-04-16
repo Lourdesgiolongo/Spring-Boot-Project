@@ -12,4 +12,12 @@ public interface PartidoService {
     List<PartidoDTO> getPartidos() throws EmptyListException;
 
     PartidoDTO savePartido(PartidoDTO dto) throws ModelNotFoundException;
+
+    // nuevo
+    void deletePartido(Long id) throws ModelNotFoundException;
+
+    // nuevo
+    PartidoDTO updatePartido(Long id, PartidoDTO dto) throws ModelNotFoundException;
+
+
 }

@@ -10,8 +10,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -53,5 +56,29 @@ public class PartidoController {
         }
         return ResponseEntity.status(HttpStatus.CREATED).body(dtoReturned);
     }
+
+    // nuevo
+    @DeleteMapping("/partidos/{id}")
+public ResponseEntity<Object> deletePartido(@PathVariable Long id) {
+    System.out.println("ID recibido para eliminar: " + id); // Agrega esta línea para verificar el ID recibido
+    try {
+        partidoServiceImpl.deletePartido(id);
+        return ResponseEntity.ok().build();
+    } catch (ModelNotFoundException e) {
+        return ResponseEntity.notFound().build();
+    }
+}
+
+    // nuevo
+    @PutMapping("/partidos/{id}")
+    public ResponseEntity<Object> updatePartido(@PathVariable Long id, @Valid @RequestBody PartidoDTO dto) {
+        try {
+            PartidoDTO updatedPartidoDTO = partidoServiceImpl.updatePartido(id, dto);
+            return ResponseEntity.ok().body(updatedPartidoDTO);
+        } catch (ModelNotFoundException e) {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
 
 }

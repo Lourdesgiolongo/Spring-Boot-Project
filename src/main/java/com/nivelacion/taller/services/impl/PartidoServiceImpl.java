@@ -15,6 +15,9 @@ import com.nivelacion.taller.repository.CompetenciaRepository;
 import com.nivelacion.taller.repository.PartidoRepository;
 import com.nivelacion.taller.services.PartidoService;
 
+import java.util.Optional;
+
+
 import lombok.extern.slf4j.Slf4j;
 
 @Service
@@ -70,4 +73,44 @@ public class PartidoServiceImpl implements PartidoService {
 
         return result;
     }
+
+    // nuevo
+    @Override
+    public void deletePartido(Long id) throws ModelNotFoundException {
+        System.out.println("ID recibido para eliminar: " + id); // Agrega esta línea para verificar el ID recibido
+        Partido partido = partidoRepository.findById(id)
+                .orElseThrow(() -> new ModelNotFoundException(id, "Partido"));
+        partidoRepository.delete(partido);
+    }
+
+    // nuevo
+    @Override
+    public PartidoDTO updatePartido(Long id, PartidoDTO dto) throws ModelNotFoundException {
+        // Verificar si el partido a actualizar existe en la base de datos
+        Optional<Partido> partidoOptional = partidoRepository.findById(id);
+        if (!partidoOptional.isPresent()) {
+            throw new ModelNotFoundException(id, "Partido");
+        }
+
+        Partido partido = partidoOptional.get();
+
+        // Verificar si la competencia asociada al partido existe
+        Long competenciaId = dto.getCompetencia().getId();
+        Competencia competencia = competenciaRepository.findById(competenciaId)
+                .orElseThrow(() -> new ModelNotFoundException(competenciaId, "Competencia"));
+
+        // Actualizar los datos del partido
+        partido.setGoles_local(dto.getGoles_local());
+        partido.setGoles_visitante(dto.getGoles_visitante());
+        partido.setFecha_realizacion(dto.getFecha_realizacion());
+        partido.setFecha_baja(dto.getFecha_baja());
+        partido.setCompetencia(competencia);
+
+        // Guardar los cambios en la base de datos
+        partido = partidoRepository.save(partido);
+
+        // Mapear el partido actualizado a DTO y devolverlo
+        return partidoMapper.original2DTO(partido);
+    }
+    
 }

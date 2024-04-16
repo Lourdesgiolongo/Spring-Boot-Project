@@ -11,4 +11,11 @@ public interface CompetenciaService {
     List<CompetenciaDTO> getCompetencias() throws EmptyListException;
 
     CompetenciaDTO save(CompetenciaDTO dto) throws ModelNotFoundException;
+
+    // NUEVO
+    void deleteCompetencia(Long id) throws ModelNotFoundException;
+
+    // Nuevo 
+    CompetenciaDTO update(CompetenciaDTO dto) throws ModelNotFoundException;
+
 }

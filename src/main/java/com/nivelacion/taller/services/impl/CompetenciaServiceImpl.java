@@ -115,4 +115,45 @@ public class CompetenciaServiceImpl implements CompetenciaService {
         return enfrentamientos;
     }
 
+    // NUEVO
+    @Override
+public void deleteCompetencia(Long id) throws ModelNotFoundException {
+    // Buscar la competencia por ID
+    Competencia competencia = competenciaRepository.findById(id)
+            .orElseThrow(() -> new ModelNotFoundException(id, "Competencia"));
+
+    // Eliminar la competencia de la base de datos
+    competenciaRepository.delete(competencia);
+}
+
+// NUEVO
+@Override
+public CompetenciaDTO update(CompetenciaDTO dto) throws ModelNotFoundException {
+    // Verificar si el usuario asociado a la competencia existe
+    Long usuarioId = dto.getUsuario().getId();
+    Usuario usuario = usuarioRepository.findById(usuarioId)
+            .orElseThrow(() -> new ModelNotFoundException(usuarioId, "Usuario"));
+
+    // Obtener la competencia existente por ID
+    Competencia competencia = competenciaRepository.findById(dto.getId())
+            .orElseThrow(() -> new ModelNotFoundException(dto.getId(), "Competencia"));
+
+    // Actualizar los campos de la competencia con los datos del DTO
+    competencia.setNombre(dto.getNombre());
+    competencia.setFecha_inicio(dto.getFecha_inicio());
+    // Otros campos que desees actualizar...
+
+    // Asignar el usuario al modelo de competencia
+    competencia.setUsuario(usuario);
+
+    // Guardar la competencia actualizada en la base de datos
+    Competencia modelSaved = competenciaRepository.save(competencia);
+
+    // Mapear modelo a DTO
+    CompetenciaDTO result = competenciaMapper.original2DTO(modelSaved);
+
+    return result;
+}
+
+
 }

@@ -7,7 +7,7 @@ public class ModelNotFoundException extends Exception {
         super(String.format(MODEL_DOESNT_EXIST, id, modelName));
     }
 
-    public ModelNotFoundException() {
-        super();
+    public ModelNotFoundException(String message) {
+        super(message);
     }
 }

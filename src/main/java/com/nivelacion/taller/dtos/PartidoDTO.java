@@ -92,4 +92,4 @@ public class PartidoDTO {
     public void setVisitante(ParticipanteDTO visitante) {
         this.visitante = visitante;
     }
-}
+}   
