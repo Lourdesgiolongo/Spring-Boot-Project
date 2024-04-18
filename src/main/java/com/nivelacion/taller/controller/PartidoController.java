@@ -44,6 +44,8 @@ public class PartidoController {
         }
     }
 
+    // nuevo
+
     @PostMapping("/partido/save")
     public ResponseEntity<Object> savePartido(@Valid @RequestBody PartidoDTO dto) {
         PartidoDTO dtoReturned = null;
@@ -72,6 +74,7 @@ public ResponseEntity<Object> deletePartido(@PathVariable Long id) {
     // nuevo
     @PutMapping("/partidos/{id}")
     public ResponseEntity<Object> updatePartido(@PathVariable Long id, @Valid @RequestBody PartidoDTO dto) {
+        System.out.println("ID del partido recibido para actualizar: " + id); // AGREGADO
         try {
             PartidoDTO updatedPartidoDTO = partidoServiceImpl.updatePartido(id, dto);
             return ResponseEntity.ok().body(updatedPartidoDTO);

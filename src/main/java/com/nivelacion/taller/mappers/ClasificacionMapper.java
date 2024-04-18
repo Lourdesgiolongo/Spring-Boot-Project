@@ -19,7 +19,7 @@ public class ClasificacionMapper {
         dtoClasificacion.setNumeroGanados(clasificacion.getNumeroGanados());
         dtoClasificacion.setNumeroEmpatados(clasificacion.getNumeroEmpatados());
         dtoClasificacion.setNumeroPerdidos(clasificacion.getNumeroPerdidos());
-        dtoClasificacion.setFecha_baja(clasificacion.getFecha_baja());
+        dtoClasificacion.setFechaBaja(clasificacion.getFecha_baja());
         return dtoClasificacion;
     }
 
@@ -41,9 +41,12 @@ public class ClasificacionMapper {
                 .collect(Collectors.toList()); 
     }
 
-    public List<ClasificacionDTO> modelToDTO(List<Clasificacion> modelList) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'modelToDTO'");
+    public void updateEntityFromDTO(Clasificacion clasificacion, ClasificacionDTO dto) {
+        clasificacion.setCompetidor(new ParticipanteMapper().dtoToEntity(dto.getCompetidor()));
+        clasificacion.setCompetencia(new CompetenciaMapper().dto2Model(dto.getCompetencia()));
+        clasificacion.setNumeroGanados(dto.getNumeroGanados());
+        clasificacion.setNumeroEmpatados(dto.getNumeroEmpatados());
+        clasificacion.setNumeroPerdidos(dto.getNumeroPerdidos());
+        clasificacion.setFechaBaja(dto.getFechaBaja());
     }
-
 }

@@ -7,5 +7,6 @@ import com.nivelacion.taller.models.Participante;
 
 @Repository
 public interface ParticipanteRepository extends JpaRepository<Participante, Long> {
+    boolean existsByNombre(String nombre);
 
 }

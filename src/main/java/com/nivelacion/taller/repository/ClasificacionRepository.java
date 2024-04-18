@@ -7,5 +7,5 @@ import com.nivelacion.taller.models.Clasificacion;
 
 @Repository
 public interface ClasificacionRepository extends JpaRepository<Clasificacion, Long> {
-
+    // Métodos personalizados de repositorio, si los necesitas, puedes agregarlos aquí
 }

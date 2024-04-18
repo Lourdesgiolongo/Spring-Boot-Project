@@ -37,7 +37,8 @@ import lombok.NoArgsConstructor;
 public class Competencia {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    // @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
 

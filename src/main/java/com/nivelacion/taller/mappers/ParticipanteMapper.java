@@ -31,6 +31,24 @@ public class ParticipanteMapper {
         return newParticipante;
     }
 
+    // nuevo
+    public Participante dtoToModel(ParticipanteDTO participanteDTO) {
+        Participante participante = new Participante();
+        participante.setId(participanteDTO.getId());
+        participante.setNombre(participanteDTO.getNombre());
+        participante.setColores(participanteDTO.getColores());
+        participante.setTrofeos(participanteDTO.getTrofeos());
+        participante.setFecha_baja(participanteDTO.getFecha_baja());
+        return participante;
+    }
+
+    // nuevo
+    public ParticipanteDTO modelToDTO(Participante participante) {
+        return original2DTO(participante);
+    }
+    
+    
+
     public List<ParticipanteDTO> modelToDTO(List<Participante> participantesList) {
         return participantesList.stream()
                 .map(this::original2DTO)

@@ -1,6 +1,7 @@
 package com.nivelacion.taller.services.impl;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -25,50 +26,75 @@ public class ClasificacionServicesImpl implements ClasificacionService {
     @Override
     public List<ClasificacionDTO> getClasificaciones() throws EmptyListException {
         List<Clasificacion> modelList = clasificacionRepository.findAll();
-        if (modelList == null || modelList.isEmpty()) {
+        if (modelList.isEmpty()) {
             throw new EmptyListException("Lista de clasificaciones vacía");
         }
-
-        return clasificacionMapper.modelToDTO(modelList);
+        return clasificacionMapper.entityListToDTOList(modelList);
     }
 
     @Override
     public ClasificacionDTO save(ClasificacionDTO dto) throws ModelNotFoundException {
-        return dto;
-        // Implementa la lógica de guardado similar a CompetenciaServiceImpl.save
-        // Utiliza el ClasificacionRepository y el ClasificacionMapper
+        Clasificacion clasificacion = clasificacionMapper.dtoToEntity(dto);
+        Clasificacion savedClasificacion = clasificacionRepository.save(clasificacion);
+        return clasificacionMapper.entityToDto(savedClasificacion);
     }
 
-    public void deleteClasificacion(ClasificacionDTO clasificacionDTO) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'deleteClasificacion'");
+    @Override
+    public ClasificacionDTO updateClasificacion(Long id, ClasificacionDTO clasificacionDTO) throws ModelNotFoundException {
+        Optional<Clasificacion> optionalClasificacion = clasificacionRepository.findById(id);
+        if (optionalClasificacion.isPresent()) {
+            Clasificacion existingClasificacion = optionalClasificacion.get();
+            clasificacionMapper.updateEntityFromDTO(existingClasificacion, clasificacionDTO); // Agregar este método al ClasificacionMapper
+            Clasificacion updatedClasificacion = clasificacionRepository.save(existingClasificacion);
+            return clasificacionMapper.entityToDto(updatedClasificacion);
+        } else {
+            throw new ModelNotFoundException(id, "Clasificacion");
+        }
     }
 
-    public ClasificacionDTO updateClasificacion(Long id, ClasificacionDTO clasificacionDTO) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'updateClasificacion'");
+    @Override
+    public void deleteClasificacion(Long id) throws ModelNotFoundException {
+        Optional<Clasificacion> optionalClasificacion = clasificacionRepository.findById(id);
+        if (optionalClasificacion.isPresent()) {
+            clasificacionRepository.deleteById(id);
+        } else {
+            throw new ModelNotFoundException(id, "Clasificacion");
+        }
     }
 
-
-
-    public ClasificacionDTO getClasificacionById(Long id) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getClasificacionById'");
+    @Override
+    public List<ClasificacionDTO> getAllClasificaciones() throws EmptyListException {
+        List<Clasificacion> modelList = clasificacionRepository.findAll();
+        if (modelList.isEmpty()) {
+            throw new EmptyListException("Lista de clasificaciones vacía");
+        }
+        return clasificacionMapper.entityListToDTOList(modelList);
     }
 
-    public List<ClasificacionDTO> getAllClasificaciones() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getAllClasificaciones'");
+    @Override
+    public ClasificacionDTO getClasificacionById(Long id) throws ModelNotFoundException {
+        Optional<Clasificacion> optionalClasificacion = clasificacionRepository.findById(id);
+        if (optionalClasificacion.isPresent()) {
+            return clasificacionMapper.entityToDto(optionalClasificacion.get());
+        } else {
+            throw new ModelNotFoundException(id, "Clasificacion");
+        }
     }
 
-    public ClasificacionDTO createClasificacion(ClasificacionDTO clasificacionDTO) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'createClasificacion'");
-    }
+    @Override
+public ClasificacionDTO createClasificacion(ClasificacionDTO clasificacionDTO) {
+    // Convertir ClasificacionDTO a Clasificacion
+    Clasificacion clasificacion = clasificacionMapper.dtoToEntity(clasificacionDTO);
+    
+    // Guardar la nueva clasificación en la base de datos
+    Clasificacion savedClasificacion = clasificacionRepository.save(clasificacion);
+    
+    // Convertir la clasificación guardada en ClasificacionDTO
+    ClasificacionDTO savedClasificacionDTO = clasificacionMapper.entityToDto(savedClasificacion);
+    
+    // Devolver el ClasificacionDTO creado
+    return savedClasificacionDTO;
+}
 
-    public void deleteClasificacion(Long id) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'deleteClasificacion'");
-    }
-
+    // Otros métodos omitidos por brevedad...
 }

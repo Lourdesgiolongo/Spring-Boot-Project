@@ -12,4 +12,13 @@ public interface ClasificacionService {
 
     ClasificacionDTO save(ClasificacionDTO dto) throws ModelNotFoundException;
 
+    ClasificacionDTO updateClasificacion(Long id, ClasificacionDTO clasificacionDTO) throws ModelNotFoundException;
+
+    void deleteClasificacion(Long id) throws ModelNotFoundException;
+
+    List<ClasificacionDTO> getAllClasificaciones() throws EmptyListException;
+
+    ClasificacionDTO getClasificacionById(Long id) throws ModelNotFoundException;
+
+    ClasificacionDTO createClasificacion(ClasificacionDTO clasificacionDTO);
 }

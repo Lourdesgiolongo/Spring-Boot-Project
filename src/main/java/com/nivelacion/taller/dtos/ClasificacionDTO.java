@@ -69,6 +69,7 @@ public class ClasificacionDTO {
     public void setFechaBaja(LocalDateTime fechaBaja) {
         this.fechaBaja = fechaBaja;
     }
+    
 
     public void setFecha_baja(LocalDateTime fecha_baja) {
         // TODO Auto-generated method stub
